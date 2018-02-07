@@ -139,9 +139,9 @@
                 y = currentColumn + j;
                 if (flag)
                 {
-                    while ((*board)[x][y] != border)
+                    while (board[x][y] != border)
                     {
-                        (*board)[x][y] = border;
+                        board[x][y] = border;
                         x += i;
                         y += j;
                     }
@@ -149,7 +149,6 @@
             }
         }
     }
-
  }
 
 
@@ -181,6 +180,5 @@ int main()
 
     printBoard(board);
     finish(blackNum,whiteNum);
-
   return 0;
 }
