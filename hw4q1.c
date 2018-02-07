@@ -30,25 +30,25 @@
      printf("**********************************************\n");
  }
 
- void setBoard(char (*board)[LENGTH][WIDTH]) // Initializes the board
+ void setBoard(char board[LENGTH][WIDTH]) // Initializes the board
  {
      for (int i = 0; i < LENGTH; i++)
         for (int j = 0; j < WIDTH; j++)
-            (*board)[i][j] = ' ';
-     (*board)[3][3] = 'W';
-     (*board)[4][4] = 'W';
-     (*board)[3][4] = 'B';
-     (*board)[4][3] = 'B';
+            board[i][j] = ' ';
+     board[3][3] = 'W';
+     board[4][4] = 'W';
+     board[3][4] = 'B';
+     board[4][3] = 'B';
  }
 
- void printBoard(char (*board)[LENGTH][WIDTH]) // Prints the board
+ void printBoard(char board[LENGTH][WIDTH]) // Prints the board
  {
      printf(" |0|1|2|3|4|5|6|7|\n");
      for (int i = 0; i < LENGTH; i++)
      {
          printf("%d",i);
          for (int j = 0; j < WIDTH; j++)
-            printf("|%c",(*board)[i][j]);
+            printf("|%c",board[i][j]);
         printf("|%d\n",i);
 
      }
@@ -62,24 +62,24 @@
      printf("Turn %d: %s player's turn.\n",counter,player);
  }
 
- int checkNum(char (*board)[LENGTH][WIDTH], char c) // Checks how many pieces there are of a certain color
+ int checkNum(char board[LENGTH][WIDTH], char c) // Checks how many pieces there are of a certain color
  {
      int counter = 0;
      for (int i = 0; i < LENGTH; i++)
      {
          for (int j = 0; j < WIDTH; j++)
          {
-             if ((*board)[i][j] == c)
+             if (board[i][j] == c)
                 counter++;
          }
      }
      return counter;
  }
 
- void input(char (*board)[LENGTH][WIDTH], int counter) // Asks player to enter the value of the cell where they want to place their piece
+ void input(char board[LENGTH][WIDTH], int counter) // Asks player to enter the value of the cell where they want to place their piece
  {
      int row,column;
-     while(1)
+     while(TRUE)
      {
         printf("Please enter the indexes of the desired cell.\n");
         printf("Row index:\n");
@@ -105,10 +105,10 @@
     }
     currentRow = row;
     currentColumn = column;
-    (*board)[row][column] = counter % 2 == 0 ? 'W':'B';
+    board[row][column] = counter % 2 == 0 ? 'W':'B';
  }
 
- void changeBoard(char (*board)[LENGTH][WIDTH], int counter) // Flips any of the second player's pieces that are between the first player's pieces
+ void changeBoard(char board[LENGTH][WIDTH], int counter) // Flips any of the second player's pieces that are between the first player's pieces
  {
      char border = counter % 2 == 0 ? 'W':'B';
      char toFlip = counter % 2 == 1 ? 'W':'B';
@@ -118,19 +118,19 @@
         {
             if (i == 0 && j == 0)
                 continue;
-            if ((*board)[currentRow + i][currentColumn + j] == toFlip)
+            if (board[currentRow + i][currentColumn + j] == toFlip)
             {
                 int flag = FALSE;
                 int x = currentRow + i;
                 int y = currentColumn + j;
                 while (x <= 7 && x >= 0 && y <= 7 && y >= 0)
                 {
-                    if ((*board)[x][y] == border)
+                    if (board[x][y] == border)
                     {
                         flag = TRUE;
                         break;
                     }
-                    else if ((*board)[x][y] == ' ')
+                    else if (board[x][y] == ' ')
                         break;
                     x += i;
                     y += j;
@@ -164,23 +164,22 @@
 int main()
 {
     char board[LENGTH][WIDTH]; // SPACE for no disc, B for black, W for white
-    char (*point)[LENGTH][WIDTH] = &board; //This pointer lets me change the board in other functions
     int turnCounter = 1;
     welcome();
-    setBoard(point);
-    int whiteNum = checkNum(point,'W');
-    int blackNum = checkNum(point,'B');
+    setBoard(board);
+    int whiteNum = checkNum(board,'W');
+    int blackNum = checkNum(board,'B');
     do {
-        printBoard(point);
+        printBoard(board);
         printInfo(blackNum,whiteNum,turnCounter);
-        input(point,turnCounter);
-        changeBoard(point,turnCounter);
+        input(board,turnCounter);
+        changeBoard(board,turnCounter);
         turnCounter++;
-        whiteNum = checkNum(point,'W');
-        blackNum = checkNum(point,'B');
+        whiteNum = checkNum(board,'W');
+        blackNum = checkNum(board,'B');
     } while((whiteNum < 17 && blackNum < 17) && (whiteNum != 0 && blackNum != 0));
 
-    printBoard(point);
+    printBoard(board);
     finish(blackNum,whiteNum);
 
   return 0;
