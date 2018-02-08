@@ -98,7 +98,7 @@
         }
         if (row > 7 || row < 0 || column > 7 || column < 0)
             printf("Error: Indexes are out of bounds.\n");
-        else if ((*board)[row][column] != ' ')
+        else if (board[row][column] != ' ')
             printf("Error: Cell is not empty.\n");
         else
             break;
